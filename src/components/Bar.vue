@@ -5,42 +5,18 @@
     dark
   >
     <div class="d-flex align-center">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-        transition="scale-transition"
-        width="40"
-      />
-
-      <v-img
-        alt="Vuetify Name"
-        class="shrink mt-1 hidden-sm-and-down"
-        contain
-        min-width="100"
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-        width="100"
-      />
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-toolbar-title>都道府県別人口構成</v-toolbar-title>
     </div>
-
     <v-spacer></v-spacer>
-
-    <v-btn
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-      text
-    >
-      <span class="mr-2">Latest Release</span>
-      <v-icon>mdi-open-in-new</v-icon>
-    </v-btn>
+    <v-icon>mdi-github</v-icon>
   </v-app-bar>
 </template>
 
 <script>
 export default {
   name: 'Bar',
-  
+
   data: () => ({
   }),
 }
