@@ -1,34 +1,32 @@
 # population-composition
 
-## Project setup
+このアプリは都道府県別の人口構成を可視化するアプリケーションです。
+また、このアプリのリポジトリは、 [Vue.js](https://jp.vuejs.org/index.html) というJavascriptフレームワークと、 [Cypress](https://www.cypress.io) というE2Eテストフレームワークを使った、自己学習用リポジトリです。
+
+## 初期設定
+
 ```
+git clone <このリポジトリのGit URL>
+cd population-composition
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## アプリケーションのローカル起動
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Run your end-to-end tests
+## E2Eテストの実行
 ```
 npm run test:e2e
 ```
 
-### Lints and fixes files
+## Lintおよび自動修正
 ```
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## アプリケーションのビルド
+```
+npm run build
+```
