@@ -41,6 +41,28 @@
         ></v-select>
       </v-col>
     </v-row>
+    <!-- ネットワーク接続エラー時のダイアログ -->
+    <v-dialog
+      v-model="isNetworkError"
+      persistent
+      max-width="360"
+    >
+      <v-card>
+        <v-card-text class="pt-5">
+          ネットワークの接続に問題があります。<br>
+          ネットワークに接続できているかを再度確認して、このアプリを開き直してください。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            @click="isNetworkError = false"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -57,16 +79,18 @@ export default {
     // セレクトボックスで選択された都道府県、市区町村
     prefName: null,
     cityName: null,
+    // 各種エラー
+    isNetworkError: false,
   }),
-  mounted() {
+  async mounted() {
     this.isLoadingPrefectures = true
-    resasApi.getPrefectures()
-      .then(res => {
-        this.prefectures = res.data.result
-      })
-      .finally(() => {
-        this.isLoadingPrefectures = false
-      })
+    try {
+      const res = await resasApi.getPrefectures()
+      this.prefectures = res.data.result
+    } catch (e) {
+      if (e.message && e.message === 'Network Error') this.isNetworkError = true
+    }
+    this.isLoadingPrefectures = false
   },
   computed: {
     prefCode: function () {
@@ -79,13 +103,15 @@ export default {
     },
   },
   watch: {
-    prefName: function () {
+    prefName: async function () {
       // 都道府県が選択される度に、現在選択済みの市区町村をリセットする
       this.cityName = null
-      resasApi.getCities(this.prefCode)
-        .then(res => {
-          this.cities = res.data.result
-        })
+      try {
+        const res = await resasApi.getCities(this.prefCode)
+        this.cities = res.data.result
+      } catch (e) {
+        if (e.message && e.message === 'Network Error') this.isNetworkError = true
+      }
     },
   },
 }
