@@ -2,9 +2,9 @@
   <v-container>
     <v-row class="text-center mt-10">
       <v-col>
-        <span>
+        <p>
           人口構成を表示したい都道府県やその市区町村を選択してください。
-        </span>
+        </p>
       </v-col>
     </v-row>
     <!-- 都道府県一覧をローディング中に表示する -->
@@ -41,6 +41,25 @@
         ></v-select>
       </v-col>
     </v-row>
+    <!-- 人口構成 -->
+    <v-row class="mt-10" justify="center" v-show="isLoadingPopulationComposition">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
+    </v-row>
+    <div v-show="!isLoadingPopulationComposition && populationComposition">
+      <v-row class="text-center mt-10">
+        <v-col>
+          <p>
+            {{ prefName }} {{ cityName }} の人口構成
+          </p>
+        </v-col>
+      </v-row>
+      <v-row class="mt-10" justify="center">
+        {{ populationComposition }}
+      </v-row>
+    </div>
     <!-- ネットワーク接続エラー時のダイアログ -->
     <v-dialog
       v-model="isNetworkError"
@@ -72,13 +91,17 @@ import resasApi from '@/api/resasApi'
 export default {
   name: 'Top',
   data: () => ({
+    // 各種ローディング表示の制御
     isLoadingPrefectures: false,
+    isLoadingPopulationComposition: false,
     // セレクトボックスから選択可能な都道府県、市区町村
     prefectures: [],
     cities: [],
     // セレクトボックスで選択された都道府県、市区町村
     prefName: null,
     cityName: null,
+    // 人口構成
+    populationComposition: null,
     // 各種エラー
     isNetworkError: false,
   }),
@@ -112,6 +135,19 @@ export default {
       } catch (e) {
         if (e.message && e.message === 'Network Error') this.isNetworkError = true
       }
+    },
+    cityName: async function () {
+      this.isLoadingPopulationComposition = true
+      this.populationComposition = null
+      if (this.prefCode && this.cityCode) {
+        try {
+          const res = await resasApi.getPopulationComposition(this.prefCode, this.cityCode)
+          this.populationComposition = res.data.result
+        } catch (e) {
+          if (e.message && e.message === 'Network Error') this.isNetworkError = true        
+        }
+      }
+      this.isLoadingPopulationComposition = false
     },
   },
 }
