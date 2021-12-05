@@ -7,18 +7,27 @@
         </span>
       </v-col>
     </v-row>
-    <v-row class="mt-10" justify="center">
-      <!-- 都道府県のセレクトボックス -->
+    <!-- 都道府県一覧をローディング中に表示する -->
+    <v-row class="mt-10" justify="center" v-show="isLoadingPrefectures">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
+    </v-row>
+    <!-- 都道府県・市区町村のセレクトボックス -->
+    <v-row class="mt-10" justify="center" v-show="!isLoadingPrefectures">
+      <!-- 都道府県 -->
       <v-col
         cols="4"
       >
         <v-select
-          :items="prefectures"
+          id="prefectures"
+          :items="prefectures.map(v => v.prefName)"
           label="都道府県"
           outlined
         ></v-select>
       </v-col>
-      <!-- 市区町村のセレクトボックス -->
+      <!-- 市区町村 -->
       <v-col
         cols="4"
       >
@@ -33,21 +42,28 @@
 </template>
 
 <script>
-  export default {
-    name: 'Top',
+import resasApi from '@/api/resasApi'
 
-    data: () => ({
-      prefectures: [
-        '千葉',
-        '東京',
-        '神奈川',
-      ],
-      cities: [
-        '渋谷区',
-        '目黒区',
-        '品川区',
-        '大田区',
-      ]
-    })
-  }
+export default {
+  name: 'Top',
+  data: () => ({
+    isLoadingPrefectures: false,
+    // 選択可能な都道府県・市区町村
+    prefectures: [],
+    cities: [],
+    // 選択された都道府県・市区町村
+    prefecture: null,
+    city: null
+  }),
+  mounted() {
+    this.isLoadingPrefectures = true
+    resasApi.getPrefectures()
+      .then(res => {
+        this.prefectures = res.data.result
+      })
+      .finally(() => {
+        this.isLoadingPrefectures = false
+      })
+  },
+}
 </script>

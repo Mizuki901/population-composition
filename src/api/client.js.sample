@@ -1,0 +1,6 @@
+import axios from 'axios'
+
+export default axios.create({
+  baseURL: 'https://opendata.resas-portal.go.jp/api/v1',
+  headers: {'X-API-KEY': '[RESAS API から発行したAPIキーをここに記載する]'}
+})
