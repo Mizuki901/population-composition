@@ -12,7 +12,6 @@ describe('トップページ', () => {
   })
   describe('コンテンツ', () => {
     it('必要な要素が表示されていること', () => {
-      // 都道府県のセレクトボックス
       cy.visit('/')
       // 都道府県というラベルがついたセレクトボックスがあること
       cy.get('.v-select__slot label').contains('都道府県')
@@ -22,11 +21,19 @@ describe('トップページ', () => {
       cy.get('.v-list-item__title').contains('青森県')
       cy.get('.v-list-item__title').contains('岩手県')
       // 任意の都道府県を選択できること
+      // <v-select>は、実際には<select>ではなく、<input type="text">で実装されているため、cy.select()ではなくcy.type()で操作する必要がある
+      // また、<input>にはreadonly="readonly"属性が付いているので、{force: true}オプションが必要
       cy.get('#prefectures').type('東京都{enter}', {force: true})
 
-      // 市区町村のセレクトボックス
+      // 市区町村というラベルがついたセレクトボックスがあること
       cy.get('.v-select__slot label').contains('市区町村')
-
+      // クリックすると、各市区町村がプルダウンで表示されること
+      cy.get('#cities').parent().click()
+      cy.get('.v-list-item__title').contains('千代田区')
+      cy.get('.v-list-item__title').contains('中央区')
+      cy.get('.v-list-item__title').contains('港区')
+      // 任意の市区町村を選択できること
+      cy.get('#cities').type('千代田区{enter}', {force: true})
     })
   })
 })

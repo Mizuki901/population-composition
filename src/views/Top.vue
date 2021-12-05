@@ -22,6 +22,7 @@
       >
         <v-select
           id="prefectures"
+          v-model="prefName"
           :items="prefectures.map(v => v.prefName)"
           label="都道府県"
           outlined
@@ -32,7 +33,9 @@
         cols="4"
       >
         <v-select
-          :items="cities"
+          id="cities"
+          v-model="cityName"
+          :items="cities.map(v => v.cityName)"
           label="市区町村"
           outlined
         ></v-select>
@@ -48,12 +51,12 @@ export default {
   name: 'Top',
   data: () => ({
     isLoadingPrefectures: false,
-    // 選択可能な都道府県・市区町村
+    // セレクトボックスから選択可能な都道府県、市区町村
     prefectures: [],
     cities: [],
-    // 選択された都道府県・市区町村
-    prefecture: null,
-    city: null
+    // セレクトボックスで選択された都道府県、市区町村
+    prefName: null,
+    cityName: null,
   }),
   mounted() {
     this.isLoadingPrefectures = true
@@ -64,6 +67,26 @@ export default {
       .finally(() => {
         this.isLoadingPrefectures = false
       })
+  },
+  computed: {
+    prefCode: function () {
+      if (!this.prefName || !this.prefectures.length === 0) return null
+      return this.prefectures.find(v => v.prefName === this.prefName).prefCode
+    },
+    cityCode: function () {
+      if (!this.cityName || !this.cities.length === 0) return null
+      return this.cities.find(v => v.cityName === this.cityName).cityCode
+    },
+  },
+  watch: {
+    prefName: function () {
+      // 都道府県が選択される度に、現在選択済みの市区町村をリセットする
+      this.cityName = null
+      resasApi.getCities(this.prefCode)
+        .then(res => {
+          this.cities = res.data.result
+        })
+    },
   },
 }
 </script>
