@@ -26,3 +26,7 @@ pnpm-debug.log*
 
 # RESAS API キーを設定するファイル
 src/api/client.js
+
+# Firebase
+.firebase/
+.firebaserc
