@@ -113,6 +113,7 @@ export default {
     // 人口構成
     populationComposition: null,
     chartData: null,
+    chartOptions: null,
     chartWidth: window.innerWidth * 0.8,
     // 各種エラー
     isNetworkError: false,
@@ -165,34 +166,21 @@ export default {
   },
   methods: {
     fillChart: function () {
+      const lineColors = ['#2a9d8f', '#e9c46a', '#f4a261', '#e76f51']
+      const labels = ['総人口', '14歳以下', '15~64歳','65歳以上']
       this.chartData = {
         labels: this.populationComposition.data[0].data.map(v => v.year),
-        datasets: [
-          {
-            label: '総人口',
-            borderColor: '#2a9d8f',
-            backgroundColor: 'rgba(255, 255, 255, 0)', // グラフの下部分は塗りつぶさない
-            data: this.populationComposition.data[0].data.map(v => v.value)
-          },
-          {
-            label: '14歳以下',
-            borderColor: '#e9c46a',
-            backgroundColor: 'rgba(255, 255, 255, 0)',
-            data: this.populationComposition.data[1].data.map(v => v.value)
-          },
-          {
-            label: '15~64歳',
-            borderColor: '#f4a261',
-            backgroundColor: 'rgba(255, 255, 255, 0)',
-            data: this.populationComposition.data[2].data.map(v => v.value)
-          },
-          {
-            label: '65歳以上',
-            borderColor: '#e76f51',
-            backgroundColor: 'rgba(255, 255, 255, 0)',
-            data: this.populationComposition.data[3].data.map(v => v.value)
+        datasets: [0, 1, 2, 3].map(i => {
+          return {
+            label: labels[i],
+            borderColor: lineColors[i],
+            pointBackgroundColor: lineColors[i],
+            backgroundColor: 'rgba(0, 0, 0, 0)', // グラフの下部分は塗りつぶさない
+            borderWidth: 4,
+            lineTension: 0,
+            data: this.populationComposition.data[i].data.map(v => v.value)
           }
-        ]
+        })          
       }
       this.chartOptions = {
         responsive: false,
