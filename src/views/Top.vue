@@ -170,25 +170,25 @@ export default {
         datasets: [
           {
             label: '総人口',
-            borderColor: '#d88c9a',
+            borderColor: '#2a9d8f',
             backgroundColor: 'rgba(255, 255, 255, 0)', // グラフの下部分は塗りつぶさない
             data: this.populationComposition.data[0].data.map(v => v.value)
           },
           {
             label: '14歳以下',
-            borderColor: '#f2d0a9',
+            borderColor: '#e9c46a',
             backgroundColor: 'rgba(255, 255, 255, 0)',
             data: this.populationComposition.data[1].data.map(v => v.value)
           },
           {
             label: '15~64歳',
-            borderColor: '#99c1b9',
+            borderColor: '#f4a261',
             backgroundColor: 'rgba(255, 255, 255, 0)',
             data: this.populationComposition.data[2].data.map(v => v.value)
           },
           {
             label: '65歳以上',
-            borderColor: '#8e7dbe',
+            borderColor: '#e76f51',
             backgroundColor: 'rgba(255, 255, 255, 0)',
             data: this.populationComposition.data[3].data.map(v => v.value)
           }
