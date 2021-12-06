@@ -2,12 +2,12 @@ describe('トップページ', () => {
   describe('ルーティング', () => {
     it('ルートURL指定時に、トップページが表示されること', () => {
       cy.visit('/')
-      cy.contains('p', '人口構成を表示したい都道府県やその市区町村を選択してください。')
+      cy.contains('h3', '人口構成を表示したい都道府県やその市区町村を選択してください。')
     })
     it('ルート以外の任意のURL指定時に、トップページにリダイレクトされること', () => {
       cy.visit('/#/xxx')
       cy.url().should('not.include', '/#/xxx')
-      cy.contains('p', '人口構成を表示したい都道府県やその市区町村を選択してください。')
+      cy.contains('h3', '人口構成を表示したい都道府県やその市区町村を選択してください。')
     })
   })
   describe('コンテンツ', () => {
@@ -47,7 +47,7 @@ describe('トップページ', () => {
       cy.get('#cities').type(`${cityName}{enter}`, {force: true})
 
       // 人口構成が表示されるか
-      cy.contains('p', `${prefName} ${cityName} の人口構成`)
+      cy.contains('h3', `${prefName} ${cityName} の人口構成`)
       // 人口構成のグラフが表示されているか
       cy.get('canvas#line-chart')
     })

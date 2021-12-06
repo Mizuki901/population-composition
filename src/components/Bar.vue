@@ -7,7 +7,7 @@
       dark
     >
       <v-app-bar-nav-icon @click="showDrawer = true"></v-app-bar-nav-icon>
-      <v-toolbar-title>都道府県別人口構成</v-toolbar-title>
+      <v-toolbar-title>市区町村別人口構成</v-toolbar-title>
     </v-app-bar>
 
     <!-- ナビゲーションドロワー -->
@@ -53,7 +53,7 @@
         </v-card-title>
         <v-card-text>
           <p>
-            このアプリは都道府県別の人口構成を可視化するアプリケーションです。<br>
+            このアプリは市区町村別の人口構成を可視化するアプリケーションです。<br>
             人口構成のデータには、
             <a href="https://opendata.resas-portal.go.jp" target="_blank" rel="noopener noreferrer">RESAS API</a>
             を使用しています。

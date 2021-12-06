@@ -3,7 +3,7 @@ describe('メニューバー', () => {
     cy.visit('/')
     cy.get('.v-app-bar')
     cy.get('.v-app-bar__nav-icon')
-    cy.contains('.v-toolbar__title', '都道府県別人口構成')    
+    cy.contains('.v-toolbar__title', '市区町村別人口構成')    
   })
   it('ナビゲーションドロワーに必要な情報が表示されていること', () => {
     // 「このアプリについて」ボタン

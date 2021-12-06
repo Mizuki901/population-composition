@@ -2,9 +2,9 @@
   <v-container>
     <v-row class="text-center mt-10">
       <v-col>
-        <p>
+        <h3 class="primary--text font-weight-regular">
           人口構成を表示したい都道府県やその市区町村を選択してください。
-        </p>
+        </h3>
       </v-col>
     </v-row>
     <!-- 都道府県一覧をローディング中に表示する -->
@@ -52,9 +52,9 @@
       <!-- グラフタイトル -->
       <v-row class="text-center mt-10">
         <v-col>
-          <p>
-            {{ prefName }} {{ cityName }} の人口構成
-          </p>
+          <h3 class="primary--text font-weight-regular">
+            <b>{{ prefName }}</b>&nbsp;&nbsp;<b>{{ cityName }}</b>&nbsp;&nbsp;の人口構成
+          </h3>
         </v-col>
       </v-row>
       <!-- 人口構成グラフ -->
