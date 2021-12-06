@@ -22,8 +22,7 @@ describe('トップページ', () => {
       cy.get('.v-list-item__title').contains('青森県')
       cy.get('.v-list-item__title').contains('岩手県')
       // 任意の都道府県を選択できること
-      // <v-select>は、実際には<select>ではなく、<input type="text">で実装されているため、cy.select()ではなくcy.type()で操作する必要がある
-      // また、<input>にはreadonly="readonly"属性が付いているので、{force: true}オプションが必要
+      // <v-select>は、<input type="text" readonly="readonly">で実装されているため、cy.type()で操作し、{force: true}オプションが必要である
       cy.get('#prefectures').type('東京都{enter}', {force: true})
 
       // 市区町村というラベルがついたセレクトボックスがあること
@@ -49,6 +48,8 @@ describe('トップページ', () => {
 
       // 人口構成が表示されるか
       cy.contains('p', `${prefName} ${cityName} の人口構成`)
+      // 人口構成のグラフが表示されているか
+      cy.get('canvas#line-chart')
     })
   })
 })

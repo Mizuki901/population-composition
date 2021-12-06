@@ -56,8 +56,12 @@
           </p>
         </v-col>
       </v-row>
-      <v-row class="mt-10" justify="center">
-        {{ populationComposition }}
+      <v-row class="mt-5" justify="center">
+        <line-chart
+          :chart-data="chartData"
+          :options="chartOptions"
+          :width="chartWidth"
+        ></line-chart>
       </v-row>
     </div>
     <!-- ネットワーク接続エラー時のダイアログ -->
@@ -87,9 +91,13 @@
 
 <script>
 import resasApi from '@/api/resasApi'
+import LineChart from '../plugins/lineChart.js'
 
 export default {
   name: 'Top',
+  components: {
+    LineChart
+  },
   data: () => ({
     // 各種ローディング表示の制御
     isLoadingPrefectures: false,
@@ -102,6 +110,8 @@ export default {
     cityName: null,
     // 人口構成
     populationComposition: null,
+    chartData: null,
+    chartWidth: window.innerWidth * 0.8,
     // 各種エラー
     isNetworkError: false,
   }),
@@ -143,11 +153,44 @@ export default {
         try {
           const res = await resasApi.getPopulationComposition(this.prefCode, this.cityCode)
           this.populationComposition = res.data.result
+          this.fillChart()
         } catch (e) {
           if (e.message && e.message === 'Network Error') this.isNetworkError = true        
         }
       }
       this.isLoadingPopulationComposition = false
+    },
+  },
+  methods: {
+    fillChart: function () {
+      this.chartData = {
+        labels: this.populationComposition.data[0].data.map(v => v.year),
+        datasets: [
+          {
+            label: '総人口',
+            borderColor: "#d88c9a",
+            data: this.populationComposition.data[0].data.map(v => v.value)
+          },
+          {
+            label: '年少人口',
+            borderColor: "#f2d0a9",
+            data: this.populationComposition.data[1].data.map(v => v.value)
+          },
+          {
+            label: '生産年齢人口',
+            borderColor: "#99c1b9",
+            data: this.populationComposition.data[2].data.map(v => v.value)
+          },
+          {
+            label: '老年人口',
+            borderColor: "#8e7dbe",
+            data: this.populationComposition.data[3].data.map(v => v.value)
+          }
+        ]
+      }
+      this.chartOptions = {
+        responsive: false,
+      }
     },
   },
 }
