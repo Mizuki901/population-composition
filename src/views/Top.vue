@@ -8,7 +8,7 @@
       </v-col>
     </v-row>
     <!-- 都道府県一覧をローディング中に表示する -->
-    <v-row class="mt-5" justify="center" v-show="isLoadingPrefectures">
+    <v-row class="mt-10" justify="center" v-show="isLoadingPrefectures">
       <v-progress-circular
         indeterminate
         color="primary"
@@ -32,13 +32,19 @@
       <v-col
         cols="4"
       >
-        <v-select
+        <v-select v-show="!isLoadingCities"
           id="cities"
           v-model="cityName"
           :items="cities.map(v => v.cityName)"
           label="市区町村"
           outlined
         ></v-select>
+        <v-progress-circular v-show="isLoadingCities"
+          indeterminate
+          color="primary"
+          justify="center"
+          class="mt-3 ml-5"
+        ></v-progress-circular>
       </v-col>
     </v-row>
     <!-- 人口構成 -->
@@ -53,7 +59,7 @@
       <v-row class="text-center mt-10">
         <v-col>
           <h3 class="primary--text font-weight-regular">
-            <b>{{ prefName }}</b>&nbsp;&nbsp;<b>{{ cityName }}</b>&nbsp;&nbsp;の人口構成
+            <b>{{ prefName }}</b> <b>{{ cityName }}</b> の人口構成
           </h3>
         </v-col>
       </v-row>
@@ -103,6 +109,7 @@ export default {
   data: () => ({
     // 各種ローディング表示の制御
     isLoadingPrefectures: false,
+    isLoadingCities: false,
     isLoadingPopulationComposition: false,
     // セレクトボックスから選択可能な都道府県、市区町村
     prefectures: [],
@@ -142,12 +149,14 @@ export default {
     prefName: async function () {
       // 都道府県が選択される度に、現在選択済みの市区町村をリセットする
       this.cityName = null
+      this.isLoadingCities = true
       try {
         const res = await resasApi.getCities(this.prefCode)
         this.cities = res.data.result
       } catch (e) {
         if (e.message && e.message === 'Network Error') this.isNetworkError = true
       }
+      this.isLoadingCities = false
     },
     cityName: async function () {
       this.isLoadingPopulationComposition = true
