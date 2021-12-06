@@ -3,6 +3,10 @@
 このアプリは市区町村別の人口構成を可視化するアプリケーションです。
 また、このアプリのリポジトリは、 [Vue.js](https://jp.vuejs.org/index.html) というJavascriptフレームワークと、 [Cypress](https://www.cypress.io) というE2Eテストフレームワークを使った、自己学習用リポジトリです。
 
+## デモ
+
+[Demo](https://population-composition-d261d.web.app)
+
 ## 事前準備
 
 ```
