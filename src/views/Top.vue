@@ -8,14 +8,14 @@
       </v-col>
     </v-row>
     <!-- 都道府県一覧をローディング中に表示する -->
-    <v-row class="mt-10" justify="center" v-show="isLoadingPrefectures">
+    <v-row class="mt-5" justify="center" v-show="isLoadingPrefectures">
       <v-progress-circular
         indeterminate
         color="primary"
       ></v-progress-circular>
     </v-row>
     <!-- 都道府県・市区町村のセレクトボックス -->
-    <v-row class="mt-10" justify="center" v-show="!isLoadingPrefectures">
+    <v-row class="mt-5" justify="center" v-show="!isLoadingPrefectures">
       <!-- 都道府県 -->
       <v-col
         cols="4"
@@ -49,6 +49,7 @@
       ></v-progress-circular>
     </v-row>
     <div v-show="!isLoadingPopulationComposition && populationComposition">
+      <!-- グラフタイトル -->
       <v-row class="text-center mt-10">
         <v-col>
           <p>
@@ -56,6 +57,7 @@
           </p>
         </v-col>
       </v-row>
+      <!-- 人口構成グラフ -->
       <v-row class="mt-5" justify="center">
         <line-chart
           :chart-data="chartData"
@@ -168,22 +170,26 @@ export default {
         datasets: [
           {
             label: '総人口',
-            borderColor: "#d88c9a",
+            borderColor: '#d88c9a',
+            backgroundColor: 'rgba(255, 255, 255, 0)', // グラフの下部分は塗りつぶさない
             data: this.populationComposition.data[0].data.map(v => v.value)
           },
           {
-            label: '年少人口',
-            borderColor: "#f2d0a9",
+            label: '14歳以下',
+            borderColor: '#f2d0a9',
+            backgroundColor: 'rgba(255, 255, 255, 0)',
             data: this.populationComposition.data[1].data.map(v => v.value)
           },
           {
-            label: '生産年齢人口',
-            borderColor: "#99c1b9",
+            label: '15~64歳',
+            borderColor: '#99c1b9',
+            backgroundColor: 'rgba(255, 255, 255, 0)',
             data: this.populationComposition.data[2].data.map(v => v.value)
           },
           {
-            label: '老年人口',
-            borderColor: "#8e7dbe",
+            label: '65歳以上',
+            borderColor: '#8e7dbe',
+            backgroundColor: 'rgba(255, 255, 255, 0)',
             data: this.populationComposition.data[3].data.map(v => v.value)
           }
         ]
